@@ -21,7 +21,7 @@ In order to make myself notice the information, I choose two ways to send data, 
 ## Flowchart
 
 The flowchart of the whole process is shown below.
-<div align=center><img src="https://raw.githubusercontent.com/ningninga/Monitor-information-of-steamer-tickets/main/Flowchart.png" ><img/></div>
+<div align=center><img src="https://github.com/ningninga/Monitor-information-of-steamer-tickets/blob/main/flowchart1.png" ><img/></div>
 
 ## Use
 If you want this program to run periodically, you can put the python file into your server and let it run on the server automatically.
