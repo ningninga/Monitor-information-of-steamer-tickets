@@ -222,7 +222,7 @@ def create_excel(totalTicket, data_list):
     })
     worksheet.merge_range('A1:H1', '8.31 ticket information is shown below,total seats : {}'.format(totalTicket), merge_format)
     title = ['Departure Time', 'RemainTickets', 'Normal', 'Price', 'VIP', 'Price', 'VVIP', 'Price']  # Set the head of the exal
-    worksheet.write_row('A2', title, cell_format=merge_format_title)  # input head from A1
+    worksheet.write_row('A2', title, cell_format=merge_format_title)  # input head from A2
     start_number = 3
     for index, data in enumerate(data_list):
         worksheet.write_row('A{}'.format(start_number + index), data, cell_format=merge_format_cell)
