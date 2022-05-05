@@ -150,7 +150,7 @@ def robot_message(value):
     :param value: The message that you want to send.
     :return:
     """
-    phone = '13514301351'
+    phone = '******'
     message_data = {
         "msgtype": "text",
         "text": {
@@ -164,7 +164,7 @@ def robot_message(value):
         }
     }
     try:
-        robot_url = 'https://oapi.dingtalk.com/robot/send?access_token=185b6151324390db703d50799235dc3837e460620aa5c0e65b01b62c61c6ca05'
+        robot_url = '********'
         requests.post(url=robot_url, json=message_data)
         logging.info("Dingding robot: {}".format(value))
     except Exception as e:
