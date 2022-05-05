@@ -1,5 +1,5 @@
 # Monitor-information-of-steamer-tickets
-This project used to monitor the information of steamer ticket.
+This project is used to monitor the information of steamer ticket.
 
 ## Table of Contents
 
