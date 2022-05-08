@@ -1,0 +1,12 @@
+body,
+ul,
+li,
+p {
+    margin: 0;
+    padding: 0;
+}
+body {
+   
+    background-image: url(../images/bg-image.jpg);
+    background-size:100% 100%;
+}

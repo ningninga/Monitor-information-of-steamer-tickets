@@ -1,0 +1,61 @@
+/* There are styles for navigation bar */
+.navigation {
+    /* border: 2px red solid; */
+    height: 50px;
+    width: 100%;
+    box-sizing: border-box;
+    line-height: 50px;
+    
+}
+/* There are styles for navbar-brand */
+.navbar-brand {
+    float: left;
+    width: 20%;
+    font-size: 20px; 
+    line-height: 50px;
+}
+.navbar-brand a{
+    color: white;
+    margin: 0 auto;
+    font-weight: 700;  
+    text-decoration: none;
+}
+/* There are styles for navbar-menu */
+.navbar-menu {
+    float: left;
+    width: 80%;
+    font-size: 18px;
+    height: 50px;
+}
+.navbar-menu ul {
+    list-style: none;
+    padding-left: calc(100% - 300px);
+    height: 50px;
+
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: row;
+    flex-direction: row;
+} 
+.navbar-menu ul li {
+    float: left;
+    width: 100px;
+    text-align: center;
+}
+.navbar-menu ul a {
+    text-decoration: none;
+    color:rgba(255, 255, 255, 0.8)
+}
+.navbar-menu .choose {
+    color:white;
+}
+/* .navbar-menu ul a:link {
+	color:rgba(255, 255, 255, 0.5)
+}
+.navbar-menu ul a:visited {
+	color:rgba(255, 255, 255, 0.5)
+} */
+.navbar-menu ul a:hover {
+	color:white;
+}
+
