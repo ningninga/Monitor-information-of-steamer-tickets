@@ -1,16 +1,22 @@
+
 /* There are styles for navigation bar */
 .navigation {
     /* border: 2px red solid; */
     height: 50px;
-    width: 100%;
     box-sizing: border-box;
     line-height: 50px;
+    background-color: rgba(0, 0, 0, 0.8);
     
+}
+.navigation-center {
+    max-width: 1200px;
+    min-width: 650px;
+    margin: 0 auto;
 }
 /* There are styles for navbar-brand */
 .navbar-brand {
     float: left;
-    width: 20%;
+    min-width: 20%;
     font-size: 20px; 
     line-height: 50px;
 }

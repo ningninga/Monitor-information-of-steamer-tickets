@@ -5,15 +5,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Monitor_Steamer_Ticket</title>
-    <link rel="stylesheet" href="statics/css/style.css">
-    <link rel="stylesheet" href="statics/css/base.css">
-    <link rel="stylesheet" href="statics/css/navbar.css">
+    <link rel="stylesheet" href="static/css/style.css">
+    <link rel="stylesheet" href="static/css/base.css">
+    <link rel="stylesheet" href="static/css/navbar.css">
+    <style>
+        body {
+            background-color: white;
+            background-image: none;
+        } 
+    </style>
 </head>
 <body>
-    <!-- This div is the most biggest div on the page, it contains all of the divs -->
-    <div class="container">
-        <!-- This is navigation bar -->
-        <nav class="navigation">
+    <!-- This is navigation bar -->
+    <nav class="navigation">
+        <div class="navigation-center">
             <div class="navbar-brand">
                 <a href="index.html">Monitor-Jing</a>
             </div>
@@ -30,14 +35,19 @@
                     </li>
                 </ul>
             </div>
-        </nav>
+        </div>      
+    </nav>
+    <div class="center-black"></div>
+    <div class="container">
+        <img src="./static/images/steamer.png" class="steamer">
         <div class="sub-content">
             <p class="subtitle">Contact us</p>
             <p class="sub-desp">We are aimed at solving your travel problems. <br>
-               If you have any question, <br>
-               please contact: <a href="mailto:123@163.com">123@163.com</a>       
+                If you have any question, <br>
+                please contact: <a href="mailto:123@163.com">123@163.com</a>       
             </p>
         </div>
+    </div>
     
 </body>
 </html>
