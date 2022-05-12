@@ -9,10 +9,28 @@
     <link rel="stylesheet" href="static/css/style.css">
     <link rel="stylesheet" href="static/css/base.css">
     <link rel="stylesheet" href="static/css/navbar.css">
+    <link rel="stylesheet" href="https://unpkg.com/element-plus/dist/index.css"/>
     <style>
         body {
             background-image: url(static/images/bg-image.jpg);
-            background-size:100% 100%;
+            background-repeat: no-repeat;
+            background-position: center 0;
+            background-size: cover;
+        }
+        .my-form {
+            z-index: 100;
+            position: fixed;
+            padding: 50px;
+            left: 0;
+            right: 0;
+            top: 60px;
+            bottom: 0;
+            margin:auto;
+            width: 800px;
+            height: 400px;
+            background-color: #FFFFFF;
+            box-shadow: 5px 5px 10px rgb(0, 0, 0, 0.3);
+            border-radius: 5px;
         }
     </style>
 </head>
@@ -42,9 +60,7 @@
     </nav>
 
     <!-- This div is the most biggest div on the page, it contains all of the divs -->
-    
-    <div class="container">
-        
+    <div class="container" id="vue-container">
         <!-- This is the description of the website, it is located in the middle of the page. -->
         <div class="description">
             <p>
@@ -63,90 +79,160 @@
         </div>
         <!-- This is main button of the page, it will popup another window -->
         <div class="about-btn">
-            <div class="about-view">Explore More</div>
+            <div class="about-view" @click="showForm">Explore More</div>
+        </div>
+
+        <div class="my-form" v-show="isShow" style="display: none">
+            <el-form v-model="form" label-width="120px">
+                <el-form-item label="Departure Port" prop="departname">
+                    <el-input v-model="form.departname" disabled placeholder='蛇口' style="width: 50px;"/>
+                </el-form-item>
+                <el-form-item label="Arrival Port" prop="arrname">
+                    <el-select v-model="form.arrname" placeholder="Arrival Port" @change="changeEndName">
+                        <el-option v-for="item in arrlist" :label="item.label" :value="item.value" :key="item.value"/>
+                        
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="Departure Date">
+                    <el-col :span="11">
+                        <el-date-picker
+                                v-model="form.date1"
+                                type="date"
+                                placeholder="Pick a date"
+                                style="width: 100%"
+                        />
+                    </el-col>
+                    <el-col :span="2" class="text-center" style="text-align: center" v-show="isShowRung">
+                        <span class="text-gray-500">-</span>
+                    </el-col>
+                    <el-col :span="11" v-show="isShowPickTime">
+                        <el-time-picker
+                                v-model="form.date2"
+                                placeholder="Pick a time"
+                                style="width: 100%"
+                        />
+                    </el-col>
+                </el-form-item>
+                <el-form-item label="Airlines" v-show="isShowAirLines">
+                    <el-select v-model="form.airname" placeholder="Airlines">
+                        <el-option v-for="item in airlist" :label="item.label" :value="item.value" :key="item.value"/>
+                
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="Flight number" prop="flightnum" v-show="isShowFlightNumber" >
+                    <el-input v-model="form.flightnum" placeholder='Please input flight number, such as AB123' style="width: 311.66px;"/>
+                </el-form-item>
+                <el-form-item label="Email Address" prop="emailaddress">
+                    <el-input v-model="form.emailaddress" placeholder='Please input your email address' style="width: 311.66px;"/>
+
+                </el-form-item> 
+                
+                <el-form-item>
+                    <el-button type="primary" @click="onSubmit">Yes, send emails to me.</el-button>
+                    <el-button @click="hideForm">Close</el-button>
+                </el-form-item>
+            </el-form>
         </div>
     </div>
-    <div id="form">
-        <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="120px" class="demo-ruleForm"
-            :size="formSize">
-            <el-form-item label="Activity name" prop="name">
-                <el-input v-model="ruleForm.name" />
-            </el-form-item>
-            <el-form-item label="Activity zone" prop="region">
-                <el-select v-model="ruleForm.region" placeholder="Activity zone">
-                    <el-option label="Zone one" value="shanghai" />
-                    <el-option label="Zone two" value="beijing" />
-                </el-select>
-            </el-form-item>
-            <el-form-item label="Activity time" required>
-                <el-col :span="11">
-                    <el-form-item prop="date1">
-                        <el-date-picker v-model="ruleForm.date1" type="date" label="Pick a date"
-                            placeholder="Pick a date" style="width: 100%" />
-                    </el-form-item>
-                </el-col>
-                <el-col class="text-center" :span="2">
-                    <span class="text-gray-500">-</span>
-                </el-col>
-                <el-col :span="11">
-                    <el-form-item prop="date2">
-                        <el-time-picker v-model="ruleForm.date2" label="Pick a time" placeholder="Pick a time"
-                            style="width: 100%" />
-                    </el-form-item>
-                </el-col>
-            </el-form-item>
-            <el-form-item label="Instant delivery" prop="delivery">
-                <el-switch v-model="ruleForm.delivery" />
-            </el-form-item>
-            <el-form-item label="Activity type" prop="type">
-                <el-checkbox-group v-model="ruleForm.type">
-                    <el-checkbox label="Online activities" name="type" />
-                    <el-checkbox label="Promotion activities" name="type" />
-                    <el-checkbox label="Offline activities" name="type" />
-                    <el-checkbox label="Simple brand exposure" name="type" />
-                </el-checkbox-group>
-            </el-form-item>
-            <el-form-item label="Resources" prop="resource">
-                <el-radio-group v-model="ruleForm.resource">
-                    <el-radio label="Sponsorship" />
-                    <el-radio label="Venue" />
-                </el-radio-group>
-            </el-form-item>
-            <el-form-item label="Activity form" prop="desc">
-                <el-input v-model="ruleForm.desc" type="textarea" />
-            </el-form-item>
-            <el-form-item>
-                <el-button type="primary" @click="submitForm(ruleFormRef)">Create</el-button>
-                <el-button @click="resetForm(ruleFormRef)">Reset</el-button>
-            </el-form-item>
-        </el-form>
-    </div>
-    <script src="https://unpkg.com/vue@3"></script>
+
+    <!-- import vue3 https://cdn.jsdelivr.net/npm/vue@3.2.33/dist/   -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@3.2.33/dist/vue.global.js"></script>
+    <!-- import element ui -->
+    <script src="https://unpkg.com/element-plus"></script>
     <script>
-        var el_Main = {
-            setup() {
+        const { reactive, ref } = Vue;
+
+        const el_Main = {
+            data() {
                 return {
-                    name: '',
-                    region: '',
-                    date1: '',
-                    date2: '',
-                    delivery: false,
-                    type: [],
-                    resource: '',
-                    desc: '',
+                    isShow: ref(false),
+                    isShowAirLines: ref(false),  // 默认隐藏AirLines
+                    isShowFlightNumber: ref(false),  // 默认隐藏Flight number
+                    isShowRung: ref(false),  // 默认隐藏时间的中横线
+                    isShowPickTime: ref(false),  // 默认隐藏Pick Time
+                    arrlist: ref( [
+                        {label:"澳门凼仔" ,value:"MAC"},
+                        {label:"东澳岛" ,value:"DAD"},
+                        {label:"外伶仃岛" ,value:"WLD"},
+                        {label:"中山港" ,value:"ZSA"},
+                        {label:"珠海横琴（长隆）" ,value:"HQP"},
+                        {label:"桂山岛" ,value:"GS"},
+                        {label:"珠海九洲" ,value:"ZH"},
+                        {label:"澳门外港" ,value:"MMF"},
+                        {label:"香港机场" ,value:"HKA"},
+                        {label:"香港港澳" ,value:"HKM"},
+                    ]
+
+                    ),
+                    airlist: ref([
+                        {label:"加拿大航空", value:"AC"},
+                        {label:"法国航空", value:"AF"},
+                        {label:"全日空日本航空", value:"NQ"},
+                        {label:"全日空航空", value:"NH"},
+                        {label:"韩亚航空", value:"OZ"},
+                        {label:"国泰航空", value:"CX"},
+                        {label:"中华航空", value:"CI"},
+                        {label:"阿联酋航空", value:"EK"},
+                        {label:"埃塞俄比亚航空", value:"ET"},
+                        {label:"长荣航空", value:"BR"},
+                        {label:"香港航空", value:"HX"},
+                        {label:"香港快运航空", value:"UO"},
+                        {label:"日本航空", value:"JL"},
+                        {label:"荷兰航空", value:"KL"},
+                        {label:"华信航空", value:"AE"},
+                        {label:"卡塔尔航空", value:"QR"},
+                        {label:"新加坡航空", value:"SQ"},
+                        {label:"土耳其航空", value:"TK"},
+                        {label:"韩国德威航空", value:"TW"},
+                        {label:"维珍航空", value:"VS"},
+
+                    ]),
+                    form: reactive({
+                        departname: '',
+                        arrname: '',
+                        date1: '',
+                        date2: '',
+                        airname: '',
+                        flightnum: '',
+                        emailaddress: '',
+                    }),
                 }
+            
             },
             methods: {
+                changeEndName: function () {
+                    /* 如果Arrival Port选择香港机场，则显示特定的字段 */
+                    if (this.form.arrname === 'HKA') {
+                        this.isShowAirLines = true;
+                        this.isShowFlightNumber = true;
+                        this.isShowRung = true;
+                        this.isShowPickTime = true;
+                    } else {
+                        this.isShowAirLines = false;
+                        this.isShowFlightNumber = false;
+                        this.isShowRung = false;
+                        this.isShowPickTime = false;
+                    }
+                },
                 onSubmit: function () {
-                    alert('submit!');
+                    // alert('submit!');
+                    console.log(this.form);
+                },
+                showForm: function () {
+                    // 点击关闭Form表单
+                    this.isShow = true;
+                    console.log('点击要显示！');
+                },
+                hideForm: function () {
+                    // 点击关闭Form表单
+                    this.isShow = false;
+                    // TODO 后续加上清除所有文本框和下拉框等的代码
                 }
             }
         };
         const el_app = Vue.createApp(el_Main);
         el_app.use(ElementPlus);
-        el_app.mount("#form");
+        const el_vm = el_app.mount("#vue-container");
     </script>
-
 </body>
-
 </html>
