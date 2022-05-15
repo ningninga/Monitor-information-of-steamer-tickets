@@ -13,13 +13,13 @@
     <style>
         body {
             background-image: url(static/images/bg-image.jpg);
-            /* 背景图垂直、水平均居中 */
+            /* Background image is centered vertically and horizontally */
             background-position: center center;
-            /* 背景图不平铺 */
+            /* Background no-repeat */
             background-repeat: no-repeat;
-            /* 当内容高度大于图片高度时，背景图像的位置相对于viewport固定 */
+            /* When the content height is greater than the image height, the position of the background image is fixed  */
             background-attachment: fixed;
-            /* 让背景图基于容器大小伸缩 */
+            /* Make the background image scale based on the container size */
             background-size: cover;
         }
 
@@ -147,10 +147,10 @@
             data() {
                 return {
                     isShow: ref(false),
-                    isShowAirLines: ref(false),  // 默认隐藏AirLines
-                    isShowFlightNumber: ref(false),  // 默认隐藏Flight number
-                    isShowRung: ref(false),  // 默认隐藏时间的中横线
-                    isShowPickTime: ref(false),  // 默认隐藏Pick Time
+                    isShowAirLines: ref(false),  // Hide AirLines by default
+                    isShowFlightNumber: ref(false),  // Hide Flight number by default
+                    isShowRung: ref(false),  // Hide the short line between Time
+                    isShowPickTime: ref(false),  // Hide Pick Time by default
                     arrlist: ref([
                         { label: "澳门凼仔", value: "MAC" },
                         { label: "东澳岛", value: "DAD" },
@@ -214,7 +214,7 @@
                         ],
                         emailaddress: [
                             { required: true, message: 'Please input your email address', trigger: 'blur' },
-                            { pattern: /^.{5,}$/, message: '请输入至少至少5个字符', trigger: 'blur' }
+                            { pattern: /^.{5,}$/, message: 'Please input 5 characters at least', trigger: 'blur' }
                         ],
                     },
                 }
@@ -223,7 +223,7 @@
                 checkArrName: function (rule, value, callback) {
                     console.log('rule:', rule);
                     if (this.formData.arrname === 'HKA') {
-                        /* 如果选择香港机场，则匹配下一个条件 */
+                        /* If Arrival Port is Hongkong Airport，then start to next rule. */
                         if (value.length === 0) {
                             callback('Please input flight number');
                             // callback(new Error('Please input flight num'));
@@ -237,7 +237,7 @@
                     }
                 },
                 changeArrName: function () {
-                    /* 如果Arrival Port选择香港机场，则显示特定的字段 */
+                    /* If Arrival Port is Hongkong Airport，then show some related fields */
                     if (this.formData.arrname === 'HKA') {
                         this.isShowAirLines = true;
                         this.isShowFlightNumber = true;
@@ -273,7 +273,7 @@
                     this.$refs['formDataRef'].validate((valid) => {
                         console.log('valid', valid);
                         if (valid) {
-                            alert('提交成功！');
+                            alert('Success');
                         }
                     })
                 },
