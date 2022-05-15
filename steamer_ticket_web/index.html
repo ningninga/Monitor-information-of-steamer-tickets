@@ -210,7 +210,7 @@
                         flightnum: [
                             { required: true, validator: this.checkArrName, trigger: 'blur'},
                             // { required: true, message: 'Please input flight num', trigger: 'blur' },
-                            { pattern: /^[A-Z]{2}\d+$/, message: '前缀必须为2位大写字母，后缀必须是数字', trigger: 'blur' }
+                            { pattern: /^[A-Z]{2}\d+$/, message: 'Please input correct flight number', trigger: 'blur' }
                         ],
                         emailaddress: [
                             { required: true, message: 'Please input your email address', trigger: 'blur' },
