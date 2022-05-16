@@ -9,7 +9,8 @@
     <link rel="stylesheet" href="static/css/style.css">
     <link rel="stylesheet" href="static/css/base.css">
     <link rel="stylesheet" href="static/css/navbar.css">
-    <link rel="stylesheet" href="https://unpkg.com/element-plus/dist/index.css" />
+    <!-- <link rel="stylesheet" href="https://unpkg.com/element-plus/dist/index.css" /> -->
+    <link rel="stylesheet" href="static/vue/css/vue-index.css">
     <style>
         body {
             background-image: url(static/images/bg-image.jpg);
@@ -22,21 +23,8 @@
             /* Make the background image scale based on the container size */
             background-size: cover;
         }
-
-        .my-form {
-            z-index: 100;
-            position: fixed;
-            padding: 50px;
-            left: 0;
-            right: 0;
-            top: 60px;
-            bottom: 0;
-            margin: auto;
-            width: 450px;
-            height: 230px;
-            background-color: #FFFFFF;
-            box-shadow: 5px 5px 10px rgb(0, 0, 0, 0.3);
-            border-radius: 5px;
+        .new_dialog {
+            width: 550px;
         }
     </style>
 </head>
@@ -51,13 +39,13 @@
             <div class="navbar-menu">
                 <ul>
                     <li>
-                        <a href="../index.html" class="choose">Home</a>
+                        <a href="./index.html" class="choose">Home</a>
                     </li>
                     <li>
-                        <a href="../about.html">About</a>
+                        <a href="./about.html">About</a>
                     </li>
                     <li>
-                        <a href="../contact.html">Contact</a>
+                        <a href="./contact.html">Contact</a>
                     </li>
                 </ul>
             </div>
@@ -87,7 +75,8 @@
             <div class="about-view" @click="showForm">Explore More</div>
         </div>
         <!-- https://segmentfault.com/a/1190000014366951?utm_source=sf-similar-article -->
-        <div class="my-form" v-show="isShow" style="display: none;" @change="changeArrName" ref="scale">
+        <el-dialog v-model="isShow" :before-close="cancelSubmit" custom-class="new_dialog" title="Input information and receive emails" style="display: none;">
+            <!-- This part contains several fields and two buttons. -->
             <el-form :model="formData" :rules="formRule" ref="formDataRef" label-width="130px">
                 <el-form-item label="Departure Port">
                     <el-input v-model="formData.departname" disabled placeholder='Departure Port' style="width: 50px;"/>
@@ -116,32 +105,37 @@
                 <el-form-item label="Flight number" prop="flightnum" v-show="isShowFlightNumber">
                     <el-input v-model="formData.flightnum" placeholder="Please input flight number, such as AB123"  style="width: 311.66px;"/>
                 </el-form-item>
-                <el-form-item label="Email Address" prop="emailaddress">
-                    <el-input v-model="formData.emailaddress" placeholder='Please input your email address' style="width: 311.66px;"/>
-
+                <el-form-item label="Email Address" prop="emailaddress" style="width: 500px;">
+                        <el-input v-model="formData.emailaddress" placeholder='Please input your email address' 
+                        style="width: 311.66px;"> </el-input>
+                        <el-tooltip content="兼容历史版本" placement="bottom" effect="light" >
+                            <img src="./static/images/question_mark.png" class="tooltip" style="margin-left:10px ;">
+                        </el-tooltip>
+                   
                 </el-form-item> 
-                
-                <!-- <el-form-item style="border: 1px red solid;">
-                    <div style="margin: 0 auto; width: 16px; border: 1px black solid;">
-                        <el-button type="primary" @click="onSubmit">Create</el-button>
-                        <el-button @click="cancelSubmit" >Cancel</el-button>
-                    </div>
-                    
-                </el-form-item> -->
-            </el-form>
+            </el-form>   
             <div style="margin: 0 auto; padding: 0 30%; box-sizing: border-box;" ref="buttons">
-                <el-button type="primary" @click="onSubmit" style="float: left">Create</el-button>
+                <el-button type="primary" @click="onSubmit" style="float: left" v-loading.fullscreen.lock="fullscreenLoading">Submit</el-button>
                 <el-button @click="cancelSubmit" style="float: right">Cancel</el-button>
             </div>
-        </div>
+            <div style="clear: both;"></div>
+        </el-dialog>
     </div>
 
     <!-- import vue3 https://cdn.jsdelivr.net/npm/vue@3.2.33/dist/   -->
-    <script src="https://cdn.jsdelivr.net/npm/vue@3.2.33/dist/vue.global.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue@3.2.33/dist/vue.global.js"></script> -->
     <!-- import element ui -->
-    <script src="https://unpkg.com/element-plus"></script>
+    <!-- <script src="https://unpkg.com/element-plus"></script>
+    <script src="https://unpkg.com/@element-plus/icons-vue"></script> -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/@element-plus/icons-vue"></script> -->
+    
+    <script src="static/vue/js/vue.global.js"></script>
+    <script src="static/vue/js/index.full.js"></script>
+    <script src="static/vue/js/index.iife.min.js"></script>
     <script>
         const { reactive, ref } = Vue;
+        // import {Search,Edit,Check,Message,Star,Delete,} from ElementPlus;
+        // import {Search,Edit,Check,Message,Star,Delete,} from "@element-plus/icons";
 
         const el_Main = {
             data() {
@@ -205,30 +199,35 @@
                             { required: true, message: 'Cannot be empty, please select Departure Date.', trigger: 'blur' },
                         ],
                         airname: [
-                            { required: true, message: 'Cannot be empty, please select Airlines.', trigger: 'blur' },
+                            { required: true, validator: this.checkField, trigger: 'blur' },
                         ],
                         flightnum: [
-                            { required: true, validator: this.checkArrName, trigger: 'blur'},
+                            { required: true, validator: this.checkField, trigger: 'blur'},
                             // { required: true, message: 'Please input flight num', trigger: 'blur' },
                             { pattern: /^[A-Z]{2}\d+$/, message: 'Please input correct flight number', trigger: 'blur' }
                         ],
                         emailaddress: [
-                            { required: true, message: 'Please input your email address', trigger: 'blur' },
-                            { pattern: /^.{5,}$/, message: 'Please input 5 characters at least', trigger: 'blur' }
+                            { required: true, message: 'Cannot be empty, please input your email address', trigger: 'blur' },
+                            { pattern: /^[A-Za-z0-9-._]+@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,6})$/, message: 'Please input correct email address', trigger: 'blur' }
                         ],
                     },
+                    fullscreenLoading: ref(false),
+                    isLoadingShow: ref(false),
+                    
                 }
             },
             methods: {
-                checkArrName: function (rule, value, callback) {
+                checkField: function (rule, value, callback) {
                     console.log('rule:', rule);
                     if (this.formData.arrname === 'HKA') {
                         /* If Arrival Port is Hongkong Airport，then start to next rule. */
                         if (value.length === 0) {
-                            callback('Please input flight number');
-                            // callback(new Error('Please input flight num'));
-                        // } else if (!value.test(/^[A-Z]{2}\d+$/)) {
-                        //     callback('Please check your flight number.');
+                            if (rule.field === "flightnum"){
+                                callback('Please input Flight number');
+                            } else if (rule.field === "airname") {
+                                callback('Please input Airline name');
+                            }
+                            
                         } else {
                             callback()
                         }
@@ -243,8 +242,7 @@
                         this.isShowFlightNumber = true;
                         this.isShowRung = true;
                         this.isShowPickTime = true;
-                        this.$refs.scale.style.height = "350px";
-                        this.$refs.scale.style.width = "800px";
+                        document.getElementsByClassName('new_dialog')[0].style.width = "850px";
                         this.$refs.buttons.style.paddingLeft = "35%";
                         this.$refs.buttons.style.paddingRight = "35%";
                     } else {
@@ -252,30 +250,28 @@
                         this.isShowFlightNumber = false;
                         this.isShowRung = false;
                         this.isShowPickTime = false;
-                        this.$refs.scale.style.height = "230px";
-                        this.$refs.scale.style.width = "450px";
+                        document.getElementsByClassName('new_dialog')[0].style.width = "500px";
                         this.$refs.buttons.style.paddingLeft = "30%";
                         this.$refs.buttons.style.paddingRight = "30%";
                     }
                 },
-                // changeScale: function() {
-                //     if (this.formData.arrname === 'HKA') {
-                //         console.log('1',this.$refs.scale.style)
-
-
-                //     }
-                // },
                 showForm: function () {
                     // Open form
                     this.isShow = true;
                 },
                 onSubmit() {
+                    this.fullscreenLoading = true;
                     this.$refs['formDataRef'].validate((valid) => {
+                        setTimeout( () => {
+                        this.fullscreenLoading = false;
+                        }, 500);
                         console.log('valid', valid);
                         if (valid) {
                             alert('Success');
                         }
                     })
+                    
+                   
                 },
                 cancelSubmit: function () {
                     this.$refs['formDataRef'].resetFields();
@@ -289,6 +285,7 @@
         const el_vm = el_app.mount("#vue-container");
 
     </script>
+
 </body>
 
 </html>
