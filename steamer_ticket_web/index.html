@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Access-Control-Allow-Origin" content="*" >
     <title>Monitor_Steamer_Ticket</title>
     <link rel="stylesheet" href="static/css/style.css">
     <link rel="stylesheet" href="static/css/base.css">
@@ -23,6 +24,7 @@
             /* Make the background image scale based on the container size */
             background-size: cover;
         }
+
         .new_dialog {
             width: 550px;
         }
@@ -75,47 +77,53 @@
             <div class="about-view" @click="showForm">Explore More</div>
         </div>
         <!-- https://segmentfault.com/a/1190000014366951?utm_source=sf-similar-article -->
-        <el-dialog v-model="isShow" :before-close="cancelSubmit" custom-class="new_dialog" title="Input information and receive emails" style="display: none;">
+        <el-dialog v-model="isShow" :before-close="cancelSubmit" custom-class="new_dialog"
+            title="Input information and receive emails" style="display: none;">
             <!-- This part contains several fields and two buttons. -->
             <el-form :model="formData" :rules="formRule" ref="formDataRef" label-width="130px">
                 <el-form-item label="Departure Port">
-                    <el-input v-model="formData.departname" disabled placeholder='Departure Port' style="width: 50px;"/>
+                    <el-input v-model="formData.departname" disabled placeholder='Departure Port'
+                        style="width: 50px;" />
                 </el-form-item>
                 <el-form-item label="Arrival Port" prop="arrname">
                     <el-select v-model="formData.arrname" placeholder="Arrival Port" @change="changeArrName">
-                        <el-option v-for="item in arrlist" :label="item.label" :value="item.value" :key="item.value"/>
+                        <el-option v-for="item in arrlist" :label="item.label" :value="item.value" :key="item.value" />
                     </el-select>
                 </el-form-item>
                 <el-form-item label="Departure Date" prop="date1">
                     <el-col :span="11">
-                        <el-date-picker v-model="formData.date1" type="date" placeholder="Pick a date" style="width: 311.66px;"/>
+                        <el-date-picker v-model="formData.date1" type="date" placeholder="Pick a date"
+                            style="width: 311.66px;" value-format="YYYY-MM-DD" />
                     </el-col>
                     <el-col :span="2" class="text-center" style="text-align: center" v-show="isShowRung">
                         <span class="text-gray-500">-</span>
                     </el-col>
                     <el-col :span="11" v-show="isShowPickTime">
-                        <el-time-picker v-model="formData.date2" placeholder="Pick a time" style="width: 100%" format="HH:mm"/>
+                        <el-time-picker v-model="formData.date2" placeholder="Pick a time" style="width: 100%"
+                            format="HH:mm" value-format="HH:mm"/>
                     </el-col>
                 </el-form-item>
                 <el-form-item label="Airlines" v-show="isShowAirLines" prop="airname">
                     <el-select v-model="formData.airname" placeholder="Airlines" style="width: 311.66px;">
-                        <el-option v-for="item in airlist" :label="item.label" :value="item.value" :key="item.value"/>
+                        <el-option v-for="item in airlist" :label="item.label" :value="item.value" :key="item.value" />
                     </el-select>
                 </el-form-item>
                 <el-form-item label="Flight number" prop="flightnum" v-show="isShowFlightNumber">
-                    <el-input v-model="formData.flightnum" placeholder="Please input flight number, such as AB123"  style="width: 311.66px;"/>
+                    <el-input v-model="formData.flightnum" placeholder="Please input flight number, such as AB123"
+                        style="width: 311.66px;" />
                 </el-form-item>
                 <el-form-item label="Email Address" prop="emailaddress" style="width: 500px;">
-                        <el-input v-model="formData.emailaddress" placeholder='Please input your email address' 
+                    <el-input v-model="formData.emailaddress" placeholder='Please input your email address'
                         style="width: 311.66px;"> </el-input>
-                        <el-tooltip content="兼容历史版本" placement="bottom" effect="light" >
-                            <img src="./static/images/question_mark.png" class="tooltip" style="margin-left:10px ;">
-                        </el-tooltip>
-                   
-                </el-form-item> 
-            </el-form>   
+                    <el-tooltip content="To montior your tickets" placement="bottom" effect="light">
+                        <img src="./static/images/question_mark.png" class="tooltip" style="margin-left:10px ;">
+                    </el-tooltip>
+
+                </el-form-item>
+            </el-form>
             <div style="margin: 0 auto; padding: 0 30%; box-sizing: border-box;" ref="buttons">
-                <el-button type="primary" @click="onSubmit" style="float: left" v-loading.fullscreen.lock="fullscreenLoading">Submit</el-button>
+                <el-button type="primary" @click="onSubmit" style="float: left"
+                    v-loading.fullscreen.lock="fullscreenLoading">Submit</el-button>
                 <el-button @click="cancelSubmit" style="float: right">Cancel</el-button>
             </div>
             <div style="clear: both;"></div>
@@ -124,12 +132,14 @@
 
     <!-- import vue3 https://cdn.jsdelivr.net/npm/vue@3.2.33/dist/   -->
     <!-- import element ui -->
-    <script src="https://unpkg.com/@element-plus/icons-vue"></script> -->
-   
-    <script src="static/vue/js/index.full.js"></script>
+    <!-- <script src="https://unpkg.com/@element-plus/icons-vue"></script> -->
+
     <script src="static/vue/js/vue.global.js"></script>
-    
+
+    <script src="static/vue/js/index.full.js"></script>
+
     <script src="static/vue/js/index.iife.min.js"></script>
+    <script src="static/js/jquery-1.8.0.min.js"></script>
     <script>
         const { reactive, ref } = Vue;
         // import {Search,Edit,Check,Message,Star,Delete,} from ElementPlus;
@@ -200,7 +210,7 @@
                             { required: true, validator: this.checkField, trigger: 'blur' },
                         ],
                         flightnum: [
-                            { required: true, validator: this.checkField, trigger: 'blur'},
+                            { required: true, validator: this.checkField, trigger: 'blur' },
                             // { required: true, message: 'Please input flight num', trigger: 'blur' },
                             { pattern: /^[A-Z]{2}\d+$/, message: 'Please input correct flight number', trigger: 'blur' }
                         ],
@@ -211,7 +221,7 @@
                     },
                     fullscreenLoading: ref(false),
                     isLoadingShow: ref(false),
-                    
+
                 }
             },
             methods: {
@@ -220,12 +230,12 @@
                     if (this.formData.arrname === 'HKA') {
                         /* If Arrival Port is Hongkong Airport，then start to next rule. */
                         if (value.length === 0) {
-                            if (rule.field === "flightnum"){
+                            if (rule.field === "flightnum") {
                                 callback('Please input Flight number');
                             } else if (rule.field === "airname") {
                                 callback('Please input Airline name');
                             }
-                            
+
                         } else {
                             callback()
                         }
@@ -257,19 +267,34 @@
                     // Open form
                     this.isShow = true;
                 },
+                getParams: function() {
+                    return {
+                        departname: '蛇口',
+                        arrname: this.formData.arrname,
+                        date1: this.formData.date1,
+                        date2: this.formData.date2,
+                        airname: this.formData.airname,
+                        flightnum: this.formData.flightnum,
+                        emailaddress: this.formData.emailaddress
+                    }
+                },
                 onSubmit() {
                     this.fullscreenLoading = true;
                     this.$refs['formDataRef'].validate((valid) => {
-                        setTimeout( () => {
-                        this.fullscreenLoading = false;
+                        let tem = this.getParams();
+                        // console.log('tem:',tem);
+                        postCmskchpData(tem);
+
+                        setTimeout(() => {
+                            this.fullscreenLoading = false;
                         }, 500);
-                        console.log('valid', valid);
-                        if (valid) {
-                            alert('Success');
-                        }
+                        // console.log('valid', valid);
+                        // if (valid) {
+                        //     alert('Success');
+                        // }
                     })
-                    
-                   
+
+
                 },
                 cancelSubmit: function () {
                     this.$refs['formDataRef'].resetFields();
@@ -281,6 +306,39 @@
         const el_app = Vue.createApp(el_Main);
         el_app.use(ElementPlus);
         const el_vm = el_app.mount("#vue-container");
+
+
+        function postCmskchpData(tem) {
+            $.ajax({
+                type: "POST",
+                headers: {
+                    Accept: "application/json, text/javascript, */*; q=0.01",
+                    "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
+                },
+                crossDomain : true,
+                url: "http://localhost:2888/postCmskchpData",
+                data: {
+                    'endSite': tem.arrname,
+                    'departTime': tem.date1,
+                    'flightCode': tem.airname,
+                    'flightNo': tem.flightnum,
+                    'flightHours': tem.date2.substring(0,2),
+                    'flightMinute': tem.date2.substring(3,5),
+                    'emailAddress': tem.emailaddress,
+                },
+                dataType: "json",
+                async: true,
+                success: function (res) {
+                    alert(res.result);
+                },
+                error: function(a, b, c) {
+                    console.log('a', a);
+                    console.log('b', b);
+                    console.log('c', c);
+                }
+
+            });
+        }
 
     </script>
 

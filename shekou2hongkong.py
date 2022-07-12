@@ -38,6 +38,8 @@ def on_start():
             with requests.Session() as req:
                 html = req.post(index_url, headers=headers, data=data, timeout=10)
             json_obj = html.json()
+            print(json_obj)
+            return
             totalRemianTicket = 0
             ticket_info = ''
             if 'status' in json_obj and json_obj['status']:
