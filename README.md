@@ -36,12 +36,12 @@ If you want this program to run periodically, you can put the python file into y
 - Create a sh file under the same directory of python file, and write some shell scripts as below into sh file. Dont't forget to change your own path and name of file.
 ```
 #!/bin/bash
-cd /home/python_project/jianing/message_flight_push
-ps -ef | grep flight_monitor_qn.py |grep -v grep | awk '{print $2}'| xargs kill -9
+cd *******
+ps -ef | grep shekou2hongkong.py |grep -v grep | awk '{print $2}'| xargs kill -9
 
 sleep 1s
 
-nohup python -u flight_monitor_qn.py > flight_monitor_qn.log 2>&1 &
+nohup python -u shekou2hongkong.py > shekou2hongkong.log 2>&1 &
 ```
 - Create crontab timed tasks, for more information about crontab, please see [here](https://www.computerhope.com/unix/ucrontab.htm)
 ```
