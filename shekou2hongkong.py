@@ -20,13 +20,21 @@ headers = {
     'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.84 Safari/537.36',
 }
 
-# this data is request body
+# this data is request body, there are several important fields that you need to fill. As for other field, please keep it.
+# toDate: YYYY-MM-DD
+# toDate2: MM月DD日
+# flightCode: it is the first two English letters of your flight number
+# flightName: the Chinese name of your flight company
+# flightNo: your flight number
+# flightDate: YYYY-MM-DD
+# flightHours: If your flight is 19:20, input 19 here
+# flightMinute: input 20 here
 data = {
     'siteResJson': """{"userType":"LTP001","startSite":"SK","endSite":"HKA",
-    "toDate":"2022-08-31","toDate2":"08月31日","toWeek":"周三","backDate":"","backDate2":"","backWeek":"",
+    "toDate":"*****","toDate2":"****","toWeek":"","backDate":"","backDate2":"","backWeek":"",
     "endSiteName":"香港机场","startSiteName":"深圳蛇口","sailingType":"0","lineId":"SK-HKA",
     "airportTime":null,"lineType":null,"toTime":"",
-    "flightCode":"QR","flightName":"卡塔爾航空","flightNo":"QR817","flightId":"58","flightDate":"2022-08-31",
+    "flightCode":"**","flightName":"*****航空","flightNo":"","flightId":"58","flightDate":"******",
     "flightHours":"19","flightMinute":"10","chanId":"1","isSeckill":false,"isSeckills":false,"nightFlight":0,"batchNo":null,"hsyLineId":null,"memberId":null}"""
 }
 
@@ -66,13 +74,16 @@ def on_start():
 
                 create_excel(totalRemianTicket, data_list)
 
-                send_message_ticket_info = '8.31 There are {} seats in total\n'.format(totalRemianTicket) + ticket_info
-                if len(message) != 0 and newest_time == '2022-08-31':
-                    send_email(['983176666@qq.com'], '【URGENT MESSAGE】8.31 There are available tickets from Shekou to Hongkong！！', 'https://www.cmskchp.com/sailings\n' + send_message_ticket_info)
-                    robot_msg = '【URGENT MESSAGE】8.31 There are available tickets from Shekou to Hongkong！！https://www.cmskchp.com/sailings'
+                send_message_ticket_info = 'There are {} seats in total\n'.format(totalRemianTicket) + ticket_info
+                if len(message) != 0:
+                    # input your email address to cover *****
+                    send_email(['*****'], '【URGENT MESSAGE】There are available tickets from Shekou to Hongkong！！',
+                               'https://www.cmskchp.com/sailings\n' + send_message_ticket_info)
+                    robot_msg = '【URGENT MESSAGE】There are available tickets from Shekou to Hongkong！！https://www.cmskchp.com/sailings'
                 else:
-                    send_email(['983176666@qq.com'], '【Daily Message】8.31 There is no available tickets', 'Please be more patient!!\n' + send_message_ticket_info)
-                    robot_msg = '【Daily Message】8.31 There is no available tickets, the biggest available date is【{}】\n'.format(newest_time)
+                    send_email(['*****'], '【Daily Message】There is no available tickets', 'Please be more patient!!\n'
+                               + send_message_ticket_info)
+                    robot_msg = '【Daily Message】There is no available tickets, the biggest available date is【{}】\n'.format(newest_time)
                 robot_message(robot_msg + send_message_ticket_info)
 
             break
