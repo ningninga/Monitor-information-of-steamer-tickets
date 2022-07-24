@@ -13,14 +13,14 @@ This project is used to monitor the information of steamer ticket.
 
 
 ## Background
-### V1.0
+### V1.0 (For developers)
 Hi, I am going to introduce my situation first, I want to take a plane from Hongkong to other country ( Because flights from Hong Kong are much cheaper than other flights from mainland China). But due to the COVID-19, there is a few ways to go to Hongkong. One of the most available ways is taking a steamer from Shenzhen to Hongkong, most affordable way as well.  
 
 However, the steamer tickets are limited, I heard that many people paid high prices to buy steamer tickets from scalpers last year, just because they were not able to buy tickets on time. Well, the reason why they were not to buy tickets is that the date of ticket release on the ticketing website is not fixed, so they missed the proper time to buy tickets. This year, I want to monitor the information about the tickets to make sure that I can buy a ticket successfully.  
 
 In order to make myself notice the information, I choose two ways to send data, the first one is sending email to my email address, the second one is sending message via Ding (For more details about how to send message by robot via Ding, please see [here](https://github.com/ningninga/flight_discount_info_push))
 
-### V2.0
+### V2.0(For all users)
 Hi, this time I just want to make more and more people be able to use this function, so I planned to improve the function based on the first version, design a webpage and run it on my server, so it is totally ok if you do not have your own server, it means that you can still receive the email as you want.
 
 ## Flowchart
