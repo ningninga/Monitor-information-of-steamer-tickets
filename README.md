@@ -29,6 +29,12 @@ Hi, this time I just want to make more and more people be able to use this funct
 The flowchart of the whole process is shown below.
 <div align=center><img src="https://github.com/ningninga/Monitor-information-of-steamer-tickets/blob/main/flowchart1.png" ><img/></div>
 
+### V2.0 
+The flowchart for v2.0 is shown below.  
+<div align=center><img src="https://github.com/ningninga/Monitor-information-of-steamer-tickets/blob/main/flowchartv2.0.png" ><img/></div>
+
+
+
 ## Use
 ### V1.0
 If you want this program to run periodically, you can put the python file into your server and let it run on the server automatically.
