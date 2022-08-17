@@ -39,7 +39,7 @@ The flowchart of the whole process is shown below.
 ## Use
 
 ### V2.0
-In order to make it easier to use, I launch this project to the Internet. So you can easily access it via: jjn.4zcf.com(http://jjn.4zcf.com)).   
+In order to make it easier to use, I launch this project to the Internet. So you can easily access it via: [jjn.4zcf.com](http://jjn.4zcf.com).   
 
 Please input some necessary fields under the directions, and then click Submit button. If the date that you choose doesn’t have any available tickets, you will receive a confirmation email to ensure that your email address is able to receive notification emails, not make the emails into junk mail.
 ### V1.0
